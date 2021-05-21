@@ -1,0 +1,6 @@
+applicationType: grpc
+defaultPackage: br.com.zupacademy.keymanagerrest
+testFramework: junit
+sourceLanguage: kotlin
+buildTool: gradle_kotlin
+features: [annotation-api, app-name, gradle, grpc, hamcrest, hibernate-validator, http-client, junit, kotlin, kotlin-application, logback, mockito, readme, shade, yaml]
