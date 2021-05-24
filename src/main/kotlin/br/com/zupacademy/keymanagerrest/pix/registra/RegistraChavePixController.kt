@@ -15,19 +15,17 @@ import io.micronaut.validation.Validated
 import javax.validation.Valid
 
 @Validated
-@Controller
+@Controller("/api/v1/clientes")
 class RegistraChavePixController(private val grpcClient: KeyManagerRegistraServiceGrpc.KeyManagerRegistraServiceBlockingStub) {
 
-    @Post("/api/chavespix")
-    fun registra(@Valid @Body request: NovaChavePixRequest): HttpResponse<Any> {
+    @Post("/{clienteId}/pix")
+    fun registra(clienteId: String, @Valid @Body request: NovaChavePixRequest): HttpResponse<Any> {
 
-        val grpcRequest = request.toGrpcRequest()
+        val grpcRequest = request.toGrpcRequest(clienteId)
 
         try {
             val grpcResponse: RegistraChavePixResponse = grpcClient.registraChavePix(grpcRequest)
-
-            val location = UriBuilder.of("/api/chavespix/{id}").expand(mutableMapOf(Pair("id", grpcResponse.id)))
-            return HttpResponse.created(location)
+            return HttpResponse.created(location(clienteId, grpcResponse.id))
         } catch (e: StatusRuntimeException) {
 
             val error = when (e.status.code) {
@@ -39,4 +37,6 @@ class RegistraChavePixController(private val grpcClient: KeyManagerRegistraServi
             throw HttpStatusException(error.first, error.second)
         }
     }
+
+    private fun location(clienteId: String, pixId: Long) = HttpResponse.uri("/api/v1/clientes/$clienteId/pix/$pixId")
 }

@@ -11,8 +11,6 @@ import br.com.zupacademy.keymanagergrpc.grpc.TipoConta as GrpcTipoConta
 @Introspected
 data class NovaChavePixRequest(
     @field:NotNull
-    val clienteId: String?,
-    @field:NotNull
     val chave: String?,
     @field:NotNull
     val tipoChave: TipoChave?,
@@ -21,7 +19,7 @@ data class NovaChavePixRequest(
 ) {
 
 
-    fun toGrpcRequest(): RegistraChavePixRequest? {
+    fun toGrpcRequest(clienteId: String): RegistraChavePixRequest? {
 
         return RegistraChavePixRequest.newBuilder()
             .setErpClienteId(clienteId)
