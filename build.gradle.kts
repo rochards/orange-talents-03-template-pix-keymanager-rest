@@ -17,6 +17,7 @@ repositories {
 }
 
 micronaut {
+    runtime("netty") // preciso add, pois esta aplicação vai rodar em http server
     testRuntime("junit5")
     processing {
         incremental(true)
@@ -25,10 +26,10 @@ micronaut {
 }
 
 dependencies {
-    implementation("io.micronaut:micronaut-http-client")
     implementation("io.micronaut:micronaut-runtime")
     implementation("io.micronaut.beanvalidation:micronaut-hibernate-validator")
-    implementation("io.micronaut.grpc:micronaut-grpc-runtime")
+    implementation("io.micronaut.grpc:micronaut-grpc-client-runtime") // preciso add, pois quero consumir de um servidor grpc
+//    implementation("io.micronaut.grpc:micronaut-grpc-runtime") pois não preciso levantar um servidor gRPC
     implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
     implementation("javax.annotation:javax.annotation-api")
     implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
@@ -38,6 +39,7 @@ dependencies {
 
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
 
+    testImplementation("io.micronaut:micronaut-http-client")
     testImplementation("org.hamcrest:hamcrest")
 
     testImplementation("org.mockito:mockito-core")

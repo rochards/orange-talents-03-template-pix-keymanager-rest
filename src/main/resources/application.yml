@@ -1,3 +1,19 @@
 micronaut:
   application:
     name: keyManagerRest
+
+grpc:
+  channels:
+    keymanagergrpc:
+      address: ${GRPC_SERVER_URL:`localhost:50051`}
+      plaintext: true
+      max-retry-attemtps: 5
+
+###
+# A configuração abaixo servem para atribuir um valor default ao enum, caso o valor passador pelo cliente não
+# corresponda a nenhum conhecido.
+###
+jackson:
+  deserialization:
+    acceptEmptyStringAsNullObject: true # necessário para aceitar string vazia ou com espaços em branco no enum
+    readUnknownEnumValuesUsingDefaultValue: true
