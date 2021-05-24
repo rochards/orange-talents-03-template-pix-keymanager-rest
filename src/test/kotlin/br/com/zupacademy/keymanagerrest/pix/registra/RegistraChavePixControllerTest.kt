@@ -7,6 +7,7 @@ import br.com.zupacademy.keymanagerrest.pix.TipoChave
 import br.com.zupacademy.keymanagerrest.pix.TipoConta
 import br.com.zupacademy.keymanagerrest.server.GrpcClientFactory
 import io.grpc.Status
+import io.micronaut.context.annotation.Bean
 import io.micronaut.context.annotation.Replaces
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.HttpStatus
@@ -39,7 +40,7 @@ internal class RegistraChavePixControllerTest {
 
     @AfterEach
     internal fun tearDown() {
-        // necessária para que os testes não
+//      necessária para que os testes, pois antes quem fazia esse passo era o @MockBean
         reset(grpcClient)
     }
 
@@ -110,13 +111,14 @@ internal class RegistraChavePixControllerTest {
         assertEquals(HttpStatus.BAD_REQUEST, exception.status)
     }
 
+//    não conseguimos mockar o grpc pelo @MockBean
 //    @MockBean(KeyManagerRegistraServiceGrpc.KeyManagerRegistraServiceBlockingStub::class)
 //    fun grpcClient(): KeyManagerRegistraServiceGrpc.KeyManagerRegistraServiceBlockingStub {
 //        return mock(KeyManagerRegistraServiceGrpc.KeyManagerRegistraServiceBlockingStub::class.java)
 //    }
 
     @Singleton
-    @Replaces(factory = GrpcClientFactory::class) // qdo o Micronaut estiver subindo o contexto, essa anotação diz a
-    // ele para substituir a factory especificada, que foi criada por mim, pelo o mock abaixo
+    @Replaces(bean = KeyManagerRegistraServiceGrpc.KeyManagerRegistraServiceBlockingStub::class) // qdo o Micronaut
+    // estiver subindo o contexto, essa anotação diz a ele para substituir a factory especificada, que foi criada por mim, pelo o mock abaixo
     fun grpcClient() = mock(KeyManagerRegistraServiceGrpc.KeyManagerRegistraServiceBlockingStub::class.java)
 }
