@@ -43,6 +43,7 @@ dependencies {
     testImplementation("org.hamcrest:hamcrest")
 
     testImplementation("org.mockito:mockito-core")
+    testImplementation("org.mockito:mockito-inline:3.10.0") // necessário para mockar os stubs do grpc
 
 }
 
