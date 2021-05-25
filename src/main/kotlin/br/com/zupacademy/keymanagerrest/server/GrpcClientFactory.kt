@@ -1,6 +1,7 @@
 package br.com.zupacademy.keymanagerrest.server
 
 import br.com.zupacademy.keymanagergrpc.grpc.KeyManagerConsultaServiceGrpc
+import br.com.zupacademy.keymanagergrpc.grpc.KeyManagerListaServiceGrpc
 import br.com.zupacademy.keymanagergrpc.grpc.KeyManagerRegistraServiceGrpc
 import br.com.zupacademy.keymanagergrpc.grpc.KeyManagerRemoveServiceGrpc
 import io.grpc.ManagedChannel
@@ -24,5 +25,10 @@ class GrpcClientFactory(@GrpcChannel("keymanagergrpc") private val channel: Mana
     @Singleton
     fun consultaChaveClientStub(): KeyManagerConsultaServiceGrpc.KeyManagerConsultaServiceBlockingStub? {
         return KeyManagerConsultaServiceGrpc.newBlockingStub(channel)
+    }
+
+    @Singleton
+    fun listaChavesClientStub(): KeyManagerListaServiceGrpc.KeyManagerListaServiceBlockingStub? {
+        return KeyManagerListaServiceGrpc.newBlockingStub(channel)
     }
 }
