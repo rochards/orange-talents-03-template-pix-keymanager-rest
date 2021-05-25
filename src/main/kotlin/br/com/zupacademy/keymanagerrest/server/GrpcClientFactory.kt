@@ -8,17 +8,15 @@ import io.micronaut.grpc.annotation.GrpcChannel
 import javax.inject.Singleton
 
 @Factory
-class GrpcClientFactory {
+class GrpcClientFactory(@GrpcChannel("keymanagergrpc") private val channel: ManagedChannel) {
 
     @Singleton
-    fun registraChaveClienteStub(@GrpcChannel("keymanagergrpc") channel: ManagedChannel)
-            : KeyManagerRegistraServiceGrpc.KeyManagerRegistraServiceBlockingStub? {
+    fun registraChaveClienteStub(): KeyManagerRegistraServiceGrpc.KeyManagerRegistraServiceBlockingStub? {
         return KeyManagerRegistraServiceGrpc.newBlockingStub(channel)
     }
 
     @Singleton
-    fun removeChaveClienteStub(@GrpcChannel("keymanagergrpc") channel: ManagedChannel)
-            : KeyManagerRemoveServiceGrpc.KeyManagerRemoveServiceBlockingStub? {
+    fun removeChaveClienteStub(): KeyManagerRemoveServiceGrpc.KeyManagerRemoveServiceBlockingStub? {
         return KeyManagerRemoveServiceGrpc.newBlockingStub(channel)
     }
 }
