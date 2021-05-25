@@ -14,7 +14,7 @@ data class ConsultaChavePixResponse(
     val pix: String,
     val titular: Titular,
     val conta: Conta,
-    @field:JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    @field:JsonFormat(shape = JsonFormat.Shape.STRING)
     val criadaEm: LocalDateTime
 
 ) {
@@ -24,11 +24,9 @@ data class ConsultaChavePixResponse(
         grpcResponse.chave,
         Titular(grpcResponse.titular),
         Conta(grpcResponse.conta),
-        LocalDateTime.ofEpochSecond(
-            grpcResponse.criadaEm.seconds,
-            grpcResponse.criadaEm.nanos,
-            ZoneOffset.UTC
-        )
+        grpcResponse.criadaEm.let {
+            LocalDateTime.ofEpochSecond(it.seconds, it.nanos, ZoneOffset.UTC)
+        }
     )
 }
 
